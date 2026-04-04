@@ -2,8 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+<<<<<<< HEAD
 const fs = require("fs");
 const path = require("path");
+=======
+>>>>>>> 5775def (feat: add Products page with search and pagination functionality)
 
 dotenv.config();
 
@@ -16,9 +19,12 @@ const requestLogger = require("./middlewares/requestLogger");
 
 const app = express();
 const port = process.env.PORT || 5000;
+<<<<<<< HEAD
 const frontendDistPath = path.join(__dirname, "../frontend/dist");
 const frontendIndexPath = path.join(frontendDistPath, "index.html");
 const hasFrontendBuild = fs.existsSync(frontendIndexPath);
+=======
+>>>>>>> 5775def (feat: add Products page with search and pagination functionality)
 
 app.use(requestLogger);
 app.use(
@@ -37,6 +43,7 @@ app.use("/api/home", homeRoutes);
 app.use("/api/shop", shopRoutes);
 app.use("/api/uploads", uploadRoutes);
 
+<<<<<<< HEAD
 if (hasFrontendBuild) {
   app.use(express.static(frontendDistPath));
 
@@ -45,6 +52,8 @@ if (hasFrontendBuild) {
   });
 }
 
+=======
+>>>>>>> 5775def (feat: add Products page with search and pagination functionality)
 app.use((err, _req, res, _next) => {
   console.error(err);
   res.status(500).json({
