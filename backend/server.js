@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const fs = require("fs");
+const path = require("path");
 
 dotenv.config();
 
@@ -14,6 +16,9 @@ const requestLogger = require("./middlewares/requestLogger");
 
 const app = express();
 const port = process.env.PORT || 5000;
+const frontendDistPath = path.join(__dirname, "../frontend/dist");
+const frontendIndexPath = path.join(frontendDistPath, "index.html");
+const hasFrontendBuild = fs.existsSync(frontendIndexPath);
 
 app.use(requestLogger);
 app.use(
@@ -31,6 +36,14 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/home", homeRoutes);
 app.use("/api/shop", shopRoutes);
 app.use("/api/uploads", uploadRoutes);
+
+if (hasFrontendBuild) {
+  app.use(express.static(frontendDistPath));
+
+  app.get(/^\/(?!api(?:\/|$)).*/, (_req, res) => {
+    res.sendFile(frontendIndexPath);
+  });
+}
 
 app.use((err, _req, res, _next) => {
   console.error(err);
