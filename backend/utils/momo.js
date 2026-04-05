@@ -4,6 +4,18 @@ const https = require("https");
 const DEFAULT_HOSTNAME = "test-payment.momo.vn";
 const DEFAULT_PATH = "/v2/gateway/api/create";
 
+function buildPublicUrl(value) {
+  const normalizedValue = String(value || "").trim();
+
+  if (!normalizedValue) {
+    return "";
+  }
+
+  return /^https?:\/\//i.test(normalizedValue)
+    ? normalizedValue.replace(/\/+$/, "")
+    : `https://${normalizedValue.replace(/\/+$/, "")}`;
+}
+
 function requireEnv(name) {
   const value = process.env[name]?.trim();
 
@@ -18,7 +30,16 @@ function getBackendPublicUrl() {
   return (
     process.env.SERVER_PUBLIC_URL ||
     process.env.BACKEND_PUBLIC_URL ||
+    buildPublicUrl(process.env.RAILWAY_PUBLIC_DOMAIN) ||
     `http://localhost:${process.env.PORT || 5000}`
+  );
+}
+
+function getClientPublicUrl() {
+  return (
+    process.env.CLIENT_URL ||
+    process.env.FRONTEND_PUBLIC_URL ||
+    "http://localhost:5173"
   );
 }
 
@@ -32,7 +53,7 @@ function getMomoConfig() {
     requestType: process.env.MOMO_REQUEST_TYPE || "captureWallet",
     redirectUrl:
       process.env.MOMO_REDIRECT_URL ||
-      `${process.env.CLIENT_URL || "http://localhost:5173"}/thanh-toan/momo`,
+      `${getClientPublicUrl()}/thanh-toan/momo`,
     ipnUrl:
       process.env.MOMO_IPN_URL ||
       `${getBackendPublicUrl()}/api/shop/payments/momo/ipn`,

@@ -9,7 +9,7 @@ function configureCloudinary() {
 
   if (!configuredCloudName || !configuredApiKey || !configuredApiSecret) {
     throw new Error(
-      "Thieu bien moi truong Cloudinary. Hay them CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY va CLOUDINARY_API_SECRET vao backend/.env."
+      "Thieu bien moi truong Cloudinary. Hay cung cap CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY va CLOUDINARY_API_SECRET trong file .env hoac tren Railway."
     );
   }
 
