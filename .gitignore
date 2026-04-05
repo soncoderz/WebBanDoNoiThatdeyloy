@@ -57,9 +57,7 @@ Thumbs.db
 tmp/
 temp/
 
-# Package lock (workspace chỉ dùng lockfile ở root)
+# Package lock (tuỳ chọn, thường KHÔNG ignore)
 # package-lock.json
 # yarn.lock
 # pnpm-lock.yaml
-frontend/package-lock.json
-backend/package-lock.json
